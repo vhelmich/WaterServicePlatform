@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WaterServicePlatform</string>
+    <string name="tab_text_1">General</string>
+    <string name="tab_text_2">Add Photo</string>
+    <string name="tab_text_3">Location</string>
+    <string name="tab_text_4">Send</string>
+    <string name="Fragment1">General</string>
+    <string name="Fragment2">Add Photo</string>
+    <string name="Fragment3">Location</string>
+    <string name="codeButton">Send Code</string>
+    <string name="confirm_explanation">To make sure, that this is a valid report we need your phone
+        number. Please enter your phone number. You will receive a code which you need to verify
+        your phone number.</string>
+    <string name="codeText">Please enter your received code.</string>
+    <string name="confirmButton">Get Code</string>
+</resources>
