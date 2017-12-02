@@ -15,7 +15,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".CodeActivity" />
+        <activity   android:name=".CodeActivity"
+                    android:theme="@style/AppTheme.NoActionBar"/>
     </application>
     <uses-permission android:name="android.permission.READ_SMS"/>
 

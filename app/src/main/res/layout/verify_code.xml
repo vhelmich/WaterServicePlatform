@@ -4,41 +4,125 @@
     android:background="#ffffff"
     android:layout_height="match_parent">
 
+    <Toolbar
+        android:title="Code confirmation"
+        android:titleMarginTop="150dp"
+        android:id="@+id/toolbar"
+        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:elevation="0dp"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+        xmlns:android="http://schemas.android.com/apk/res/android" >
+    </Toolbar>
 
     <TextView
         android:id="@+id/codeText"
-        android:layout_width="fill_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
+        android:textSize="6pt"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="50dp"
+        android:textStyle="bold"
         android:text="@string/codeText"/>
 
-    <EditText
-        android:id="@+id/codeField"
-        android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_below="@+id/codeText"
-        android:layout_marginTop="35dp"
-        android:layout_marginHorizontal="10dp"
-        android:hint="XXXXXX"
-        android:inputType="phone"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/codeNumber"
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="50dp">
+        <EditText
+            android:id="@+id/codeField1"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:layout_weight=".3"
+            android:cursorVisible="false"/>
+        <EditText
+            android:id="@+id/codeField2"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:layout_weight=".3"
+            android:cursorVisible="false"/>
+        <EditText
+            android:id="@+id/codeField3"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:layout_weight=".3"
+            android:cursorVisible="false"/>
+        <EditText
+            android:id="@+id/codeField4"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:layout_weight=".3"
+            android:cursorVisible="false"/>
+        <EditText
+            android:id="@+id/codeField5"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:layout_weight=".3"
+            android:cursorVisible="false"/>
+        <EditText
+            android:id="@+id/codeField6"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:layout_weight=".30"
+            android:cursorVisible="false"/>
 
-    <Button
-        android:id="@+id/codeButton"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/codeField"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:text="@string/codeButton"/>
+
+    </LinearLayout>
+
 
     <TextView
-        android:id="@+id/errorMsgCode"
-        android:layout_width="wrap_content"
+        android:id="@+id/codeNumber"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/codeButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"/>
+        android:textSize="5pt"
+        android:layout_below="@+id/codeText"
+        android:layout_marginHorizontal="50dp"
+        android:gravity="left"
+        android:text=""/>
+
+
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:id="@+id/codeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/white"
+            android:text="@string/confirmButton"/>
+    </RelativeLayout>
 
 </RelativeLayout>

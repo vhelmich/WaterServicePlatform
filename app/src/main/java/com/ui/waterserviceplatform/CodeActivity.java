@@ -16,11 +16,10 @@ import android.widget.Toast;
 
 public class CodeActivity extends AppCompatActivity {
 
-
-    private TextView errormsgCode;
     private String code;
     private EditText codeField;
-    private String generatedCode;
+    private int generatedCode;
+    private TextView codeReceived;
     //private String exampleCode = "123456"; //set here only for testing
 
 
@@ -35,14 +34,13 @@ public class CodeActivity extends AppCompatActivity {
 
         if(b!=null)
         {
-            generatedCode =(String) b.get("stringname");
-
+            generatedCode = (int) b.get("code");
         }
 
         System.out.println("code: " + generatedCode);
-
-        errormsgCode = (TextView) findViewById(R.id.errorMsgCode);
-        codeField = (EditText) findViewById(R.id.codeField);
+        codeReceived = (TextView) findViewById(R.id.codeNumber);
+        codeReceived.setText("Your code is " + generatedCode);
+        codeField = (EditText) findViewById(R.id.codeField1);
         final Button codeButton = findViewById(R.id.codeButton);
         codeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
