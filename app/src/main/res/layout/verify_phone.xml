@@ -25,8 +25,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginHorizontal="50dp"
         android:textStyle="bold"
-        android:text="@string/enter_phone"
-        />
+        android:text="@string/enter_phone" />
 
     <EditText
         android:id="@+id/phoneNumberField"
@@ -49,14 +48,6 @@
         android:gravity="left"
         android:text="@string/confirm_explanation"/>
 
-
-    <TextView
-        android:id="@+id/errorMsgPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/descriptionText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"/>
 
     <RelativeLayout
         android:layout_alignParentBottom="true"
