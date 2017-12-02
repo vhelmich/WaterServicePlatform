@@ -110,23 +110,9 @@ public class PhoneActivity extends AppCompatActivity {
             }
         }
     }
-
-
+    
     private boolean checkPhoneNumber(String phoneNumber) {
-
-        //TODO: check, if phone number is valid
-
-        return !phoneNumber.isEmpty();
+        return phoneNumber.matches("^[+]?[0-9]{10,13}$");
     }
-
-    private boolean checkCode(String code) {
-
-        if (code.equals(generatedCode)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 
 }
