@@ -9,9 +9,10 @@
     <string name="Fragment2">Add Photo</string>
     <string name="Fragment3">Location</string>
     <string name="codeButton">Send Code</string>
+    <string name="enter_phone">Please enter your phone number.</string>
     <string name="confirm_explanation">To make sure, that this is a valid report we need your phone
-        number. Please enter your phone number. You will receive a code which you need to verify
-        your phone number.</string>
+        number. You will receive a code which you need to verify your phone number.</string>
     <string name="codeText">Please enter your received code.</string>
-    <string name="confirmButton">Get Code</string>
+    <string name="confirmButton">Next ></string>
+    <string name="phone_hint">"Phone number"</string>
 </resources>

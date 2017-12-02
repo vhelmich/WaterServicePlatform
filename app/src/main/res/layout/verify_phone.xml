@@ -1,45 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="#ffffff"
     android:layout_height="match_parent">
 
+    <Toolbar
+        android:title="Phone number verification"
+        android:titleMarginTop="150dp"
+        android:id="@+id/toolbar"
+        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:elevation="0dp"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+        xmlns:android="http://schemas.android.com/apk/res/android" >
+    </Toolbar>
+
+    <TextView
+        android:id="@+id/enter_phone" android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="6pt"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="50dp"
+        android:textStyle="bold"
+        android:text="@string/enter_phone"
+        />
+
+    <EditText
+        android:id="@+id/phoneNumberField"
+        android:layout_below="@+id/enter_phone"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="50dp"
+        android:hint="@string/phone_hint"
+        android:inputType="phone"/>
+
     <TextView
         android:id="@+id/descriptionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="10pt"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:gravity="center"
+        android:textSize="5pt"
+        android:layout_below="@+id/phoneNumberField"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="50dp"
+        android:gravity="left"
         android:text="@string/confirm_explanation"/>
 
-    <EditText
-        android:id="@+id/phoneNumberField"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:layout_below="@+id/descriptionText"
-        android:layout_marginTop="35dp"
-        android:layout_marginHorizontal="10dp"
-        android:hint="+358XXXXXX"
-        android:inputType="phone"/>
-
-    <Button
-        android:id="@+id/confirmNumberButton"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/phoneNumberField"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:text="@string/confirmButton"/>
 
     <TextView
         android:id="@+id/errorMsgPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/confirmNumberButton"
+        android:layout_below="@id/descriptionText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"/>
 
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:id="@+id/confirmNumberButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/white"
+            android:text="@string/confirmButton"/>
+    </RelativeLayout>
 
 </RelativeLayout>
