@@ -14,8 +14,9 @@ import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Random;
 
 /**
  * Created by vhelmich on 29/11/17.
@@ -25,7 +26,6 @@ public class PhoneActivity extends AppCompatActivity {
 
     private EditText phoneField;
     private String phoneNumber;
-    private String generatedCode;
     private Button confirmButton;
     private final static int MY_PERMISSIONS_REQUEST_READ_SMS = 0;
 
@@ -34,20 +34,14 @@ public class PhoneActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.verify_phone);
 
-        phoneField = (EditText) findViewById(R.id.phoneNumberField);
+        phoneField = findViewById(R.id.phoneNumberField);
 
         confirmButton = findViewById(R.id.confirmNumberButton);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 phoneNumber = phoneField.getText().toString();
                 if(checkPhoneNumber(phoneNumber)) {
-                    //TODO: send code
-                    generatedCode = "123456"; //set here only for testing
-                    Intent intent = new Intent(getApplicationContext(), CodeActivity.class);
-                    intent.putExtra("stringname",generatedCode);
-                    startActivity(intent);
-
-
+                    launchCodeActivity(false);
                 } else {
                     Context context = getApplicationContext();
                     CharSequence text = "Please enter a valid phone number.";
@@ -100,7 +94,7 @@ public class PhoneActivity extends AppCompatActivity {
                         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
                         String number = telephonyManager.getLine1Number();
                         phoneField.setText(number);
-                        confirmButton.performClick();
+                        launchCodeActivity(true);
                     }
                     catch(SecurityException e){
 
@@ -110,9 +104,18 @@ public class PhoneActivity extends AppCompatActivity {
             }
         }
     }
-    
+
     private boolean checkPhoneNumber(String phoneNumber) {
         return phoneNumber.matches("^[+]?[0-9]{10,13}$");
+    }
+
+    private void launchCodeActivity(boolean auto){
+        Random r = new Random();
+        int code = r.nextInt(999999 - 100000) + 100000;
+        Intent intent = new Intent(getApplicationContext(), CodeActivity.class);
+        intent.putExtra("code", code);
+        intent.putExtra("auto", auto);
+        startActivity(intent);
     }
 
 }
