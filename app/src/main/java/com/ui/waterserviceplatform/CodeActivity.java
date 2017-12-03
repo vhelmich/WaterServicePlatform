@@ -2,6 +2,7 @@ package com.ui.waterserviceplatform;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -46,6 +47,15 @@ public class CodeActivity extends AppCompatActivity {
             auto = (boolean) b.get("auto");
             phoneNumber = (String) b.get("number");
         }
+        
+        if(auto){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                   storeNumberAndLaunchMain();
+                }
+            }, 500);
+        }
 
         for(int i=0;i<tvIds.length;i++){
             codeFields.add((CustomEditText) findViewById(tvIds[i]));
@@ -62,9 +72,7 @@ public class CodeActivity extends AppCompatActivity {
         codeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (checkCode(getInputCode())) {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-
+                    storeNumberAndLaunchMain();
                 } else {
                     Context context = getApplicationContext();
                     CharSequence text = "The code is not correct.";
@@ -170,5 +178,23 @@ public class CodeActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    private void storeNumberAndLaunchMain(){
+        SharedPreferences sharedPref = this.getSharedPreferences("data",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("phoneNumber", phoneNumber);
+        editor.commit();
+
+        Context context = getApplicationContext();
+        CharSequence text = "Confirmation completed.";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
