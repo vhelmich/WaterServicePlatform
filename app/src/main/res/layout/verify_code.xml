@@ -6,9 +6,9 @@
 
     <Toolbar
         android:title="Code confirmation"
-        android:titleMarginTop="150dp"
+        android:titleMarginTop="100dp"
         android:id="@+id/toolbar"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_width="match_parent"
         android:background="@color/colorPrimary"
         android:elevation="0dp"
