@@ -65,7 +65,7 @@ public class CodeActivity extends AppCompatActivity {
     }
 
     private boolean checkCode(String code) {
-        return true;//code.equals(generatedCode);
+        return code.equals(generatedCode);
     }
 
 

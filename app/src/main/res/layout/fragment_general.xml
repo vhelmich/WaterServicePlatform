@@ -23,7 +23,7 @@
         android:layout_below="@+id/seekbarText"
         android:layout_marginTop="20dp"
         android:layout_marginHorizontal="30dp"
-        android:max="5"
+        android:max="10"
         android:progress="0"/>
 
   <TextView
