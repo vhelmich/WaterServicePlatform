@@ -1,5 +1,8 @@
 package com.ui.waterserviceplatform;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
@@ -18,7 +21,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        SharedPreferences sharedPrefs = getSharedPreferences("data", MODE_PRIVATE);
+        if(!sharedPrefs.contains("phoneNumber")){
+            Intent intent = new Intent(getApplicationContext(), PhoneActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
