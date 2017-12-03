@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -57,6 +58,15 @@ public class CodeActivity extends AppCompatActivity {
             }, 500);
         }
 
+        if(auto){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                   storeNumberAndLaunchMain();
+                }
+            }, 500);
+        }
+        
         for(int i=0;i<tvIds.length;i++){
             codeFields.add((CustomEditText) findViewById(tvIds[i]));
             if(i!=0){
