@@ -5,7 +5,6 @@
     <string name="tab_text_2">Add Photo</string>
     <string name="tab_text_3">Location</string>
     <string name="tab_text_4">Send</string>
-    <string name="Fragment1">General</string>
     <string name="Fragment2">Add Photo</string>
     <string name="Fragment3">Location</string>
     <string name="codeButton">Send Code</string>
@@ -16,4 +15,9 @@
     <string name="confirmButton">Next ></string>
     <string name="phone_hint">"Phone number"</string>
     <string name="codeNumber">"Code</string>
+    <string name="seekbarText">Please specify how intense the leakage is.</string>
+    <string name="idPipeText">If available, enter the ID written on the pipe.</string>
+    <string name="idPipe_hint">Pipe ID</string>
+    <string name="addInfoText">If you have more information, add them here.</string>
+    <string name="addInfo_hint">           Add information</string>
 </resources>

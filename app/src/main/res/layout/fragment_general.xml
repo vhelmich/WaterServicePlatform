@@ -4,14 +4,91 @@
     android:background="#ffffff"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+  <TextView
+      android:id="@+id/seekbarText"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="6pt"
+      android:layout_marginTop="50dp"
+      android:layout_marginHorizontal="30dp"
+      android:layout_centerHorizontal="true"
+      android:textStyle="bold"
+      android:text="@string/seekbarText"/>
+
+
+    <android.support.v7.widget.AppCompatSeekBar
+        android:id="@+id/seekbarDamage"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/tab_text_1"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        android:textColor="#000000"
-        android:layout_centerInParent="true"/>
+        android:layout_below="@+id/seekbarText"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="30dp"
+        android:max="5"
+        android:progress="0"/>
+
+  <TextView
+      android:id="@+id/idPipeText"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/seekbarDamage"
+      android:layout_centerHorizontal="true"
+      android:textSize="6pt"
+      android:layout_marginTop="60dp"
+      android:layout_marginHorizontal="30dp"
+      android:textStyle="bold"
+      android:text="@string/idPipeText"/>
+
+
+  <EditText
+      android:id="@+id/idPipe"
+      android:layout_below="@+id/idPipeText"
+      android:layout_height="wrap_content"
+      android:layout_width="fill_parent"
+      android:layout_marginTop="10dp"
+      android:layout_marginHorizontal="30dp"
+      android:hint="@string/idPipe_hint"
+      android:inputType="number"/>
+
+  <TextView
+      android:id="@+id/addInfoText"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/idPipe"
+      android:textSize="6pt"
+      android:layout_marginTop="60dp"
+      android:layout_marginHorizontal="30dp"
+      android:layout_centerHorizontal="true"
+      android:textStyle="bold"
+      android:text="@string/addInfoText"/>
+
+  <EditText
+      android:id="@+id/addInfo"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:layout_below="@+id/addInfoText"
+      android:layout_marginTop="10dp"
+      android:layout_marginHorizontal="30dp"
+      android:hint="@string/addInfo_hint"
+      android:inputType="textMultiLine">
+  </EditText>
+
+
+  <RelativeLayout
+      android:layout_alignParentBottom="true"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/colorPrimary">
+
+    <Button
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:id="@+id/codeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/white"
+        android:text="@string/confirmButton"/>
+  </RelativeLayout>
+
 
 
 </RelativeLayout>
