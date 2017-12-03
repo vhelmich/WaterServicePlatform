@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 public class CodeActivity extends AppCompatActivity {
 
+    private boolean auto;
+    private String phoneNumber;
     private int generatedCode;
     private TextView codeReceived;
     private Button codeButton;
@@ -41,6 +43,8 @@ public class CodeActivity extends AppCompatActivity {
         if(b!=null)
         {
             generatedCode = (int) b.get("code");
+            auto = (boolean) b.get("auto");
+            phoneNumber = (String) b.get("number");
         }
 
         for(int i=0;i<tvIds.length;i++){

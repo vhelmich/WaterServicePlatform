@@ -115,6 +115,7 @@ public class PhoneActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), CodeActivity.class);
         intent.putExtra("code", code);
         intent.putExtra("auto", auto);
+        intent.putExtra("number", phoneField.getText().toString());
         startActivity(intent);
     }
 
