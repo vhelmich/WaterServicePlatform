@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         // Add Fragments to adapter one by one
         adapter.addFragment(new FragmentGeneral(), "General");
@@ -30,8 +30,29 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new FragmentSend(), "Send");
         viewPager.setAdapter(adapter);
 
+
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                if(tab.getPosition() == 0) {
+                    FragmentGeneral fragment = (FragmentGeneral) adapter.getItem(tab.getPosition());
+                    fragment.saveContent();
+                }
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
 
 
     }

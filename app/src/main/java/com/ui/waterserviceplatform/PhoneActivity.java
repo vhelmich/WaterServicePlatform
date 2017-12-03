@@ -106,7 +106,7 @@ public class PhoneActivity extends AppCompatActivity {
     }
 
     private boolean checkPhoneNumber(String phoneNumber) {
-        return phoneNumber.matches("^[+]?[0-9]{10,13}$");
+        return true;//phoneNumber.matches("^[+]?[0-9]{10,13}$");
     }
 
     private void launchCodeActivity(boolean auto){
