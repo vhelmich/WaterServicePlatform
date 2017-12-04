@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setOffscreenPageLimit(3);
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         // Add Fragments to adapter one by one
