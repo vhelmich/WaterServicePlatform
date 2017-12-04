@@ -20,6 +20,7 @@
         <activity   android:name=".CodeActivity"
                     android:theme="@style/AppTheme.NoActionBar"
                     android:windowSoftInputMode="adjustResize"/>
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCwsbWahRA7QqEJwiQAWXqebb56WA7hjSU"/>
     </application>
     <uses-permission android:name="android.permission.READ_SMS"/>
 
