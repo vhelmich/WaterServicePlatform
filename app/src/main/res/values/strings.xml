@@ -19,5 +19,6 @@
     <string name="idPipeText">If available, enter the ID written on the pipe.</string>
     <string name="idPipe_hint">Pipe ID</string>
     <string name="addInfoText">If you have more information, add them here.</string>
-    <string name="addInfo_hint">           Add information</string>
+    <string name="addInfo_hint">Add information</string>
+    <string name="photoText">You can add pictures (optional and 3 max).</string>
 </resources>
