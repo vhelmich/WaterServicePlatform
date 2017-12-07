@@ -26,7 +26,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -39,6 +38,10 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
+
+import java.util.ArrayList;
 
 
 public class FragmentLocation extends Fragment {
@@ -46,7 +49,6 @@ public class FragmentLocation extends Fragment {
     private PlaceAutocompleteFragment placeAutoComplete;
     private Marker currentMarker;
     private MapFragment mapFragment;
-    private final static int MY_PERMISSIONS_REQUEST_ACCESS_GPS = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -138,33 +140,31 @@ public class FragmentLocation extends Fragment {
     }
 
     private boolean checkPermissionGPS(){
-        boolean granted = ContextCompat.checkSelfPermission(this.getContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
-        if (!granted){
-            ActivityCompat.requestPermissions(this.getActivity(),
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_ACCESS_GPS);
-        }
-        return granted;
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                moveToPosition();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                defaultLocation();
+            }
+
+
+        };
+        TedPermission.with(getContext())
+                .setPermissionListener(permissionlistener)
+                .setRationaleTitle("Requesting permission")
+                .setRationaleMessage("We can get your position automatically if you allow us to do so.")
+                .setDeniedMessage("Permission denied")
+                .setDeniedMessage("If you reject permission, you can not use your location.\n" +
+                        "Please turn on permissions at [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
+                .check();
+        return TedPermission.isGranted(getContext(),Manifest.permission.ACCESS_FINE_LOCATION);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_ACCESS_GPS: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                   moveToPosition();
-                }
-                else {
-                    defaultLocation();
-                }
-                return;
-            }
-        }
-    }
 
     private void changeButtonPosition(){
         View mapView = mapFragment.getView();
@@ -212,7 +212,7 @@ public class FragmentLocation extends Fragment {
                             locationListener);
                 }
                 catch(SecurityException e){
-                    
+
                 }
                 return false;
             }

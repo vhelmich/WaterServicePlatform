@@ -16,6 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -27,7 +31,6 @@ public class PhoneActivity extends AppCompatActivity {
     private EditText phoneField;
     private String phoneNumber;
     private Button confirmButton;
-    private final static int MY_PERMISSIONS_REQUEST_READ_SMS = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,52 +60,34 @@ public class PhoneActivity extends AppCompatActivity {
     }
 
     private void requestPhonePermission(){
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                Manifest.permission.READ_SMS)
-                != PackageManager.PERMISSION_GRANTED) {
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Permission required");
-            alertDialog.setMessage("We can automatically verify your number if you give us the permission" +
-                    " to read your SMS, else you will have to do it manually.");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    ActivityCompat.requestPermissions(PhoneActivity.this,
-                            new String[]{Manifest.permission.READ_SMS},
-                            MY_PERMISSIONS_REQUEST_READ_SMS);
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                try {
+                    TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                    String number = telephonyManager.getLine1Number();
+                    phoneField.setText(number);
+                    launchCodeActivity(true);
                 }
-            });
-            alertDialog.show();
+                catch(SecurityException e){
 
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_SMS: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    try {
-                        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                        String number = telephonyManager.getLine1Number();
-                        phoneField.setText(number);
-                        launchCodeActivity(true);
-                    }
-                    catch(SecurityException e){
-
-                    }
                 }
-                return;
             }
-        }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+
+            }
+
+
+        };
+        TedPermission.with(getApplicationContext())
+                .setPermissionListener(permissionlistener)
+                .setRationaleTitle("Requesting permission")
+                .setRationaleMessage("We can automatically verify your number if you give us the permission" +
+                        " to read your SMS, else you will have to do it manually.")
+                .setPermissions(Manifest.permission.READ_SMS)
+                .check();
     }
 
     private boolean checkPhoneNumber(String phoneNumber) {
