@@ -17,6 +17,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
+    private FragmentGeneral general;
+    private FragmentPhoto photo;
+    private FragmentLocation location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         // Add Fragments to adapter one by one
-        adapter.addFragment(new FragmentGeneral(), "General");
-        adapter.addFragment(new FragmentPhoto(), "Photo");
-        adapter.addFragment(new FragmentLocation(), "Location");
+        adapter.addFragment(general = new FragmentGeneral(), "General");
+        adapter.addFragment(photo = new FragmentPhoto(), "Photo");
+        adapter.addFragment(location = new FragmentLocation(), "Location");
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -61,6 +64,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {
+                general.loseFocus();
+            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            public void onPageSelected(int position) {
             }
         });
 

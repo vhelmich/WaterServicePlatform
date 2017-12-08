@@ -96,7 +96,7 @@ public class FragmentGeneral extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 saveContent();
-                hideKeyboard();
+                loseFocus();
                 ((MainActivity)getActivity()).switchTab(1);
             }
         });
@@ -110,6 +110,13 @@ public class FragmentGeneral extends Fragment {
 
         inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    public void loseFocus(){
+        hideKeyboard();
+        addInfoField.clearFocus();
+        idField.clearFocus();
+        getView().findViewById(R.id.generalFragment).requestFocus();
     }
 
     public void saveContent() {
