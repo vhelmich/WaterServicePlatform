@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:id="@+id/generalFragment"
     android:background="#ffffff"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
 
   <TextView
       android:id="@+id/seekbarText"
