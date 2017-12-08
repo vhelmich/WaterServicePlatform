@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -95,6 +96,13 @@ public class FragmentLocation extends Fragment {
                     defaultLocation();
                 }
                 addListenerLongTouch();
+            }
+        });
+
+        Button backButton = rootView.findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).switchTab(1);
             }
         });
 

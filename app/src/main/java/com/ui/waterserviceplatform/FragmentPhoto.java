@@ -61,6 +61,13 @@ public class FragmentPhoto extends Fragment {
                 }
             });
 
+            Button backButton = view.findViewById(R.id.backButton);
+            backButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    ((MainActivity)getActivity()).switchTab(0);
+                }
+            });
+
             return view;
         }
 

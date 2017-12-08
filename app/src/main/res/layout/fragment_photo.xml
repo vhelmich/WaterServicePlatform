@@ -47,6 +47,15 @@
 
         <Button
             style="@style/Widget.AppCompat.Button.Borderless"
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/white"
+            android:text="@string/back"/>
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:id="@+id/codeButton"
             android:layout_width="wrap_content"
             android:layout_height="50dp"

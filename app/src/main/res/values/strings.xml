@@ -21,4 +21,6 @@
     <string name="addInfoText">If you have more information, add them here.</string>
     <string name="addInfo_hint">Add information</string>
     <string name="photoText">You can add pictures (optional and 3 max).</string>
+    <string name="back">&lt; Back </string>
+    <string name="send">Send ></string>
 </resources>
