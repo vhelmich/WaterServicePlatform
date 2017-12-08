@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridView;
 
 import com.gun0912.tedpermission.PermissionListener;
@@ -52,6 +53,13 @@ public class FragmentPhoto extends Fragment {
             gv = (GridView) view.findViewById(R.id.gridview);
             imageAdapter = new ImageAdapter(this, getActivity().getApplicationContext());
             gv.setAdapter(imageAdapter);
+
+            final Button nextButton = view.findViewById(R.id.codeButton);
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    ((MainActivity)getActivity()).switchTab(2);
+                }
+            });
 
             return view;
         }

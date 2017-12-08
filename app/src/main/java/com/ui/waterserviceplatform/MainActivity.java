@@ -16,6 +16,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setOffscreenPageLimit(3);
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
@@ -38,10 +40,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new FragmentGeneral(), "General");
         adapter.addFragment(new FragmentPhoto(), "Photo");
         adapter.addFragment(new FragmentLocation(), "Location");
-        adapter.addFragment(new FragmentSend(), "Send");
         viewPager.setAdapter(adapter);
-
-
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -65,7 +64,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    public void switchTab(int tab){
+        viewPager.setCurrentItem(tab);
     }
 
 

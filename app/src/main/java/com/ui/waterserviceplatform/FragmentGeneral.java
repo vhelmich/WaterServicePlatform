@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentContainer;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,23 +75,7 @@ public class FragmentGeneral extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 saveContent();
-                /*FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction t = fragmentManager.beginTransaction();
-                System.out.println(fragmentManager.getFragments().get(1));
-                Fragment f = fragmentManager.getFragments().get(1);
-                Fragment.SavedState savedState = fragmentManager.saveFragmentInstanceState(f);
-
-                Fragment newInstance = f.getClass().newInstance();
-                newInstance.setInitialSavedState(savedState);
-
-
-
-
-                t.replace(R.id.photoFragment, mFrag);
-                t.commit();*/
-
-                //TODO: fix bug
-
+                ((MainActivity)getActivity()).switchTab(1);
             }
         });
 
