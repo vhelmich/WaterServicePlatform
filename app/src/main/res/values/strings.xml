@@ -38,4 +38,10 @@
     <string name="perm_explain_pic">We need to get access to your storage to send pictures.</string>
     <string name="done">Done</string>
     <string name="no_select">No Select</string>
+    <string name="missing_data">Some required fields are missing.</string>
+    <string name="send_confirm">Sending confirmation</string>
+    <string name="send_as">You are about to send your report as  </string>
+    <string name="confirm">Confirm</string>
+    <string name="report_sent">Report successfully sent.</string>
+    <string name="cancel">Cancel</string>
 </resources>

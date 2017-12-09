@@ -1,25 +1,20 @@
 package com.ui.waterserviceplatform;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.provider.ContactsContract;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,15 +34,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences sharedPrefs = getSharedPreferences("data", MODE_PRIVATE);
-        if(!sharedPrefs.contains("phoneNumber")){
-            Intent intent = new Intent(getApplicationContext(), PhoneActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        }
+        checkNumber();
+        setupTabLayout();
 
+    }
+
+    /**
+     * Setup the tabLayout
+     */
+    private void setupTabLayout(){
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setOffscreenPageLimit(3);
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -74,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
             public void onTabUnselected(TabLayout.Tab tab) {
                 if(tab.getPosition() == 0) {
                     FragmentGeneral fragment = (FragmentGeneral) adapter.getItem(tab.getPosition());
-                    fragment.saveContent();
                 }
             }
 
@@ -92,9 +86,26 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
             }
         });
-
     }
 
+    /**
+     * Check if the phone number has been set. If not, launch the confirmation activity
+     */
+    private void checkNumber(){
+        SharedPreferences sharedPrefs = getSharedPreferences("data", MODE_PRIVATE);
+        if(!sharedPrefs.contains("phoneNumber")){
+            Intent intent = new Intent(getApplicationContext(), PhoneActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    /**
+     * Set current tab
+     * @param tab tab position
+     */
     public void switchTab(int tab){
         viewPager.setCurrentItem(tab);
     }
@@ -118,26 +129,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Send the data if no field is missing
+     */
     public void sendData(){
         if(checkData()){
             SharedPreferences pref = getApplication().getSharedPreferences("data", MODE_PRIVATE);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Sending confirmation")
-                    .setTitle("You are about to send your report as " + pref.getString("phone", ""));
-            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            builder.setMessage(getText(R.string.send_confirm))
+                    .setTitle(R.string.send_as + pref.getString("phone", ""));
+            builder.setPositiveButton(getText(R.string.confirm), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            | Intent.FLAG_ACTIVITY_NEW_TASK
+                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                    CharSequence text = "Report successfully sent.";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(getApplicationContext(), text, duration);
-                    toast.show();
+                    Toast.makeText(getApplicationContext(),
+                            getText(R.string.report_sent),
+                            Toast.LENGTH_SHORT)
+                            .show();
                     finish();
                 }
             });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getText(R.string.cancel),
+                    new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
                 }
@@ -147,6 +164,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check if some required data are missing
+     * @return true if required data are missing
+     */
     public boolean checkData(){
         boolean emptyIntensity = general.getIntensity()==0;
         boolean emptyLocation = location.getCurrentMarker() == null;
@@ -163,15 +184,19 @@ public class MainActivity extends AppCompatActivity {
             getTabTextView(2).setTextColor(getResources().getColor(R.color.red));
         }
         if(emptyIntensity || emptyLocation){
-            CharSequence text = "Some required fields are missing.";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
-            toast.show();
+            Toast.makeText(getApplicationContext(),
+                    getText(R.string.missing_data),
+                    Toast.LENGTH_SHORT)
+                    .show();
             return false;
         }
         return true;
     }
 
+    /**
+     * Reset the color of the tab at the given position
+     * @param pos given position
+     */
     public void resetTabColor(int pos){
         if(pos==0){
             ((TextView)general.getView().findViewById(R.id.seekbarText))
@@ -180,6 +205,11 @@ public class MainActivity extends AppCompatActivity {
         getTabTextView(pos).setTextColor(getResources().getColor(R.color.white));
     }
 
+    /**
+     * Get the textView of the tab at the given position
+     * @param pos given position
+     * @return textView of the tab at the given position
+     */
     private TextView getTabTextView(int pos){
         LinearLayout ll = (LinearLayout)((LinearLayout)tabLayout.getChildAt(0)).getChildAt(pos);
         return (TextView) ll.getChildAt(1);
