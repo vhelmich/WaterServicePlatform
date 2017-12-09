@@ -1,14 +1,9 @@
 package com.ui.waterserviceplatform;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -46,12 +41,10 @@ public class PhoneActivity extends AppCompatActivity {
                 if(checkPhoneNumber(phoneNumber)) {
                     launchCodeActivity(false);
                 } else {
-                    Context context = getApplicationContext();
-                    CharSequence text = "Please enter a valid phone number.";
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
+                    Toast.makeText(getApplicationContext(),
+                            getString(R.string.valid_number),
+                            Toast.LENGTH_SHORT)
+                            .show();
                 }
 
             }
@@ -59,6 +52,9 @@ public class PhoneActivity extends AppCompatActivity {
         requestPhonePermission();
     }
 
+    /**
+     * Ask the user for the permission to read the phone number
+     */
     private void requestPhonePermission(){
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
@@ -83,17 +79,25 @@ public class PhoneActivity extends AppCompatActivity {
         };
         TedPermission.with(getApplicationContext())
                 .setPermissionListener(permissionlistener)
-                .setRationaleTitle("Requesting permission")
-                .setRationaleMessage("We can automatically verify your number if you give us the permission" +
-                        " to read your SMS, else you will have to do it manually.")
+                .setRationaleTitle(getString(R.string.perm_request))
+                .setRationaleMessage(getString(R.string.perm_explain_phone))
                 .setPermissions(Manifest.permission.READ_SMS)
                 .check();
     }
 
+    /**
+     * Check if the phone number is valid
+     * @param phoneNumber phone number to check
+     * @return true is the phone number has a valid format
+     */
     private boolean checkPhoneNumber(String phoneNumber) {
-        return true;//phoneNumber.matches("^[+]?[0-9]{10,13}$");
+        return phoneNumber.matches("^[+]?[0-9]{10,13}$");
     }
 
+    /**
+     * Launches the code confirmation activity
+     * @param auto if true, the phone number has been automatically provided
+     */
     private void launchCodeActivity(boolean auto){
         Random r = new Random();
         int code = r.nextInt(999999 - 100000) + 100000;

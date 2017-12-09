@@ -44,4 +44,6 @@
     <string name="confirm">Confirm</string>
     <string name="report_sent">Report successfully sent.</string>
     <string name="cancel">Cancel</string>
+    <string name="perm_explain_phone">We can automatically verify your number if you give us the permission to read your SMS, else you will have to do it manually.</string>
+    <string name="valid_number">Please enter a valid phone number.</string>
 </resources>
