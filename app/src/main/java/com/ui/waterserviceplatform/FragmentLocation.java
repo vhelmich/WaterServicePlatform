@@ -143,11 +143,8 @@ public class FragmentLocation extends Fragment {
         googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                try {
-                    Geocoder location = new Geocoder(getContext());
-                    String country = location.getFromLocation(latLng.latitude,
-                            latLng.longitude, 1).get(0).getCountryCode();
-                    if(country.equals("KE")){
+
+                    if(checkCountry(latLng)){
                         addMarkerAndMove(latLng);
                     }
                     else{
@@ -156,10 +153,7 @@ public class FragmentLocation extends Fragment {
                                 Toast.LENGTH_SHORT)
                                 .show();
                     }
-                }
-                catch(Exception e){
 
-                }
 
             }
         });
@@ -219,7 +213,16 @@ public class FragmentLocation extends Fragment {
                 android.location.LocationListener locationListener = new android.location.LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
-                        addMarkerAndMove(new LatLng(location.getLatitude(), location.getLongitude()));
+                        LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+                        if(checkCountry(ll)) {
+                            addMarkerAndMove(ll);
+                        }
+                        else{
+                            Toast.makeText(getContext(),
+                                    getText(R.string.kenya_loc),
+                                    Toast.LENGTH_SHORT)
+                                    .show();
+                        }
                     }
 
                     @Override
@@ -279,5 +282,25 @@ public class FragmentLocation extends Fragment {
      */
     public Marker getCurrentMarker(){
         return currentMarker;
+    }
+
+    /**
+     * Check if the given location is in Kenya
+     * @param loc given location
+     * @return true if location in Kenya
+     */
+    private boolean checkCountry(LatLng loc){
+        try {
+            Geocoder location = new Geocoder(getContext());
+            String country = location.getFromLocation(loc.latitude,
+                    loc.longitude, 1).get(0).getCountryCode();
+            if (country.equals("KE")) {
+                return true;
+            }
+        }
+        catch (Exception e){
+
+        }
+        return false;
     }
 }
