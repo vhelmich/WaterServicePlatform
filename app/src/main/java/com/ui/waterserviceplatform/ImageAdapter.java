@@ -66,10 +66,7 @@ public class ImageAdapter extends BaseAdapter {
         }
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.image_grid);
         final ImageView close = (ImageView)convertView.findViewById(R.id.image_delete);
-        ImageSize targetSize = new ImageSize(200,200);
-        Bitmap bmp = imageLoader.loadImageSync(image.toString(),  targetSize,options);
-        Bitmap resized = Bitmap.createScaledBitmap(bmp, 200, 200, true);
-        imageView.setImageBitmap(resized);
+        new LoadImage(imageView, image.toString()).execute();
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,5 +88,33 @@ public class ImageAdapter extends BaseAdapter {
             fp.setButtonVisibility(View.INVISIBLE);
         }
         this.notifyDataSetChanged();
+    }
+
+    class LoadImage extends AsyncTask<Object, Void, Bitmap>{
+
+        private ImageView imv;
+        private String path;
+
+        public LoadImage(ImageView imv, String path) {
+            this.imv = imv;
+            this.path = path;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Object... params) {
+            ImageSize targetSize = new ImageSize(200,200);
+            Bitmap bmp = imageLoader.loadImageSync(path,  targetSize,options);
+            Bitmap resized = Bitmap.createScaledBitmap(bmp, 200, 200, true);
+
+            return resized;
+        }
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            if(result != null && imv != null){
+                imv.setVisibility(View.VISIBLE);
+                imv.setImageBitmap(result);
+            }
+        }
+
     }
 }
