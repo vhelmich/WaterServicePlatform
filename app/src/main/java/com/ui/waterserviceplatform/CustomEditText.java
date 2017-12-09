@@ -31,7 +31,7 @@ public class CustomEditText extends AppCompatEditText {
     public CustomEditText(Context context) {
         super(context);
     }
-    
+
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
         return new CustomInputConnection(super.onCreateInputConnection(outAttrs),

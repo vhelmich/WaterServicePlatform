@@ -5,41 +5,25 @@ package com.ui.waterserviceplatform;
  */
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentContainer;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
-import android.widget.Button;
 
 public class FragmentGeneral extends Fragment {
 
     private SeekBar slider;
-    private static final int RANGE = 10;
-    private static final int STEP_SIZE = 1;
     private EditText idField, addInfoField;
     private ScrollView scrollview;
-
     private int intensity = 0;
-    private String pipeID = "";
-    private String additionalInfo = "";
 
-
-
-    public FragmentGeneral() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,15 +36,19 @@ public class FragmentGeneral extends Fragment {
         // Inflate the layout for this fragment
         final View view =  inflater.inflate(R.layout.fragment_general, container, false);
 
-        intensity = 0;
-        pipeID = "";
-        additionalInfo = "";
-
         slider = (SeekBar) view.findViewById(R.id.seekbarDamage);
         idField = (EditText) view.findViewById(R.id.idPipe);
         addInfoField = (EditText) view.findViewById(R.id.addInfo);
         scrollview = (ScrollView) view.findViewById(R.id.scrollview);
+        setListeners(view);
 
+        return view;
+    }
+
+    /**
+     * Set listeners for various elements
+     */
+    private void setListeners(View view){
         addInfoField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -92,19 +80,18 @@ public class FragmentGeneral extends Fragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-
-        final Button nextButton = view.findViewById(R.id.codeButton);
+        Button nextButton = view.findViewById(R.id.codeButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                saveContent();
                 loseFocus();
                 ((MainActivity)getActivity()).switchTab(1);
             }
         });
-
-        return view;
     }
 
+    /**
+     * Hides the keyboard
+     */
     private void hideKeyboard(){
         InputMethodManager inputManager = (InputMethodManager)
                 getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -113,6 +100,9 @@ public class FragmentGeneral extends Fragment {
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
+    /**
+     * Removes focus for every field
+     */
     public void loseFocus(){
         hideKeyboard();
         addInfoField.clearFocus();
@@ -120,14 +110,10 @@ public class FragmentGeneral extends Fragment {
         getView().findViewById(R.id.generalFragment).requestFocus();
     }
 
-    public void saveContent() {
-        pipeID = idField.getText().toString();
-        System.out.println("pipe ID " +  pipeID);
-
-        additionalInfo = addInfoField.getText().toString();
-        System.out.println("additional info " + additionalInfo);
-    }
-
+    /**
+     * Return the intensity
+     * @return intensity
+     */
     public int getIntensity(){
         return this.intensity;
     }
