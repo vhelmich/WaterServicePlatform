@@ -33,4 +33,9 @@
     <string name="perm_denined">Permission denied</string>
     <string name="perm_denined_explain_gps">If you reject permission, you can not use your location.\n
                         Please turn on permissions at [Setting] > [Permission]</string>
+    <string name="perm_denined_explain_pic">If you reject permission, you cannot send pictures.\n
+                            Please turn on permissions at [Setting] > [Permission]</string>
+    <string name="perm_explain_pic">We need to get access to your storage to send pictures.</string>
+    <string name="done">Done</string>
+    <string name="no_select">No Select</string>
 </resources>

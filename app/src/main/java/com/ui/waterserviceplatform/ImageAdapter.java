@@ -74,7 +74,7 @@ public class ImageAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 removeImage(position);
-                fp.setButtonVisiblity(View.VISIBLE);
+                fp.setButtonVisibility(View.VISIBLE);
             }
         });
         return convertView;
@@ -88,7 +88,7 @@ public class ImageAdapter extends BaseAdapter {
     public void addImages(ArrayList<Uri> images){
         imagesUri.addAll(images);
         if(this.getCount()==3){
-            fp.setButtonVisiblity(View.INVISIBLE);
+            fp.setButtonVisibility(View.INVISIBLE);
         }
         this.notifyDataSetChanged();
     }

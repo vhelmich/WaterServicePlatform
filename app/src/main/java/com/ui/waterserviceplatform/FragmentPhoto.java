@@ -3,7 +3,7 @@ package com.ui.waterserviceplatform;
 /**
  * Created by vhelmich on 29/11/17.
  */
-import android.*;
+
 import android.Manifest;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +17,6 @@ import android.widget.GridView;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
 
@@ -41,6 +40,18 @@ public class FragmentPhoto extends Fragment {
             View view = inflater.inflate(R.layout.fragment_photo, container, false);
             checkStoragePermission();
 
+            setupButton(view);
+            setupGridView(view);
+            setupNavBar(view);
+
+            return view;
+        }
+
+    /**
+     * Setup the floating button
+     * @param view view containing the button
+     */
+    private void setupButton(View view){
             button = (FloatingActionButton) view.findViewById(R.id.pickImage);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -49,29 +60,42 @@ public class FragmentPhoto extends Fragment {
                     bottomSheet.show(getActivity().getSupportFragmentManager());
                 }
             });
-
-            gv = (GridView) view.findViewById(R.id.gridview);
-            imageAdapter = new ImageAdapter(this, getActivity().getApplicationContext());
-            gv.setAdapter(imageAdapter);
-
-            final Button nextButton = view.findViewById(R.id.codeButton);
-            nextButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    ((MainActivity)getActivity()).switchTab(2);
-                }
-            });
-
-            Button backButton = view.findViewById(R.id.backButton);
-            backButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    ((MainActivity)getActivity()).switchTab(0);
-                }
-            });
-
-            return view;
         }
 
-        private void checkStoragePermission(){
+    /**
+     * Setup the gridView
+     * @param view view containing the button
+     */
+    private void setupGridView(View view){
+        gv = (GridView) view.findViewById(R.id.gridview);
+        imageAdapter = new ImageAdapter(this, getActivity().getApplicationContext());
+        gv.setAdapter(imageAdapter);
+    }
+
+    /**
+     * Setup the navbar
+     * @param view view containing the navbar
+     */
+    private void setupNavBar(View view){
+        Button nextButton = view.findViewById(R.id.codeButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).switchTab(2);
+            }
+        });
+
+        Button backButton = view.findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).switchTab(0);
+            }
+        });
+    }
+
+    /**
+     * Check permission to access storage
+     */
+    private void checkStoragePermission(){
             PermissionListener permissionlistener = new PermissionListener() {
                 @Override
                 public void onPermissionGranted() {
@@ -83,16 +107,18 @@ public class FragmentPhoto extends Fragment {
             };
             TedPermission.with(getContext())
                     .setPermissionListener(permissionlistener)
-                    .setRationaleTitle("Requesting permission")
-                    .setRationaleMessage("We need to get access to your storage to send pictures.")
-                    .setDeniedMessage("Permission denied")
-                    .setDeniedMessage("If you reject permission, you cannot send pictures.\n" +
-                            "Please turn on permissions at [Setting] > [Permission]")
+                    .setRationaleTitle(getString(R.string.perm_request))
+                    .setRationaleMessage(getString(R.string.perm_explain_pic))
+                    .setDeniedMessage(getString(R.string.perm_denined))
+                    .setDeniedMessage(getString(R.string.perm_denined_explain_pic))
                     .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .check();
         }
 
-        private void createBottomSheet(){
+    /**
+     * Create the image picker
+     */
+    private void createBottomSheet(){
             bottomSheet = new TedBottomPicker.Builder(getContext())
                     .setOnMultiImageSelectedListener(new TedBottomPicker.OnMultiImageSelectedListener() {
                         @Override
@@ -104,12 +130,16 @@ public class FragmentPhoto extends Fragment {
                     .showTitle(false)
                     .setSelectMinCount(1)
                     .setSelectMaxCount(3-imageAdapter.getCount())
-                    .setCompleteButtonText("Done")
-                    .setEmptySelectionText("No Select")
+                    .setCompleteButtonText(getString(R.string.done))
+                    .setEmptySelectionText(getString(R.string.no_select))
                     .create();
         }
 
-        public void setButtonVisiblity(int visible){
+    /**
+     * Set the floating button visibility
+     * @param visible visibility of the button
+     */
+    public void setButtonVisibility(int visible){
             button.setVisibility(visible);
         }
 
