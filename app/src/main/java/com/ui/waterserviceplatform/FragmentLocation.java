@@ -106,6 +106,13 @@ public class FragmentLocation extends Fragment {
             }
         });
 
+        Button sendButton = rootView.findViewById(R.id.sendButton);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).sendData();
+            }
+        });
+
         return rootView;
     }
 
@@ -113,6 +120,7 @@ public class FragmentLocation extends Fragment {
         if (currentMarker != null) {
             currentMarker.remove();
         }
+        ((MainActivity)getActivity()).resetTabColor(2);
         currentMarker = googleMap.addMarker(new MarkerOptions().position(coord).title("Your leak location").snippet(""));
 
         CameraPosition cameraPosition = new CameraPosition.Builder().target(coord).zoom(12).build();
@@ -241,5 +249,9 @@ public class FragmentLocation extends Fragment {
         LatLng nairobi = new LatLng(-1.2920408, 36.8256984);
         CameraPosition cameraPosition = new CameraPosition.Builder().target(nairobi).zoom(12).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+
+    public Marker getCurrentMarker(){
+        return currentMarker;
     }
 }

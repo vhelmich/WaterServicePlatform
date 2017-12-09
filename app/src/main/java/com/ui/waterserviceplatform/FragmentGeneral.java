@@ -31,9 +31,9 @@ public class FragmentGeneral extends Fragment {
     private EditText idField, addInfoField;
     private ScrollView scrollview;
 
-    public int intensity;
-    public String pipeID;
-    public String additionalInfo;
+    private int intensity = 0;
+    private String pipeID = "";
+    private String additionalInfo = "";
 
 
 
@@ -83,6 +83,7 @@ public class FragmentGeneral extends Fragment {
                 if(fromUser) {
                     intensity = progress;
                 }
+                ((MainActivity)getActivity()).resetTabColor(0);
             }
 
             @Override
@@ -126,4 +127,9 @@ public class FragmentGeneral extends Fragment {
         additionalInfo = addInfoField.getText().toString();
         System.out.println("additional info " + additionalInfo);
     }
+
+    public int getIntensity(){
+        return this.intensity;
+    }
+
 }

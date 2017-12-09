@@ -1,10 +1,14 @@
 package com.ui.waterserviceplatform;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +18,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentGeneral general;
     private FragmentPhoto photo;
     private FragmentLocation location;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +58,12 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(location = new FragmentLocation(), "Location");
         viewPager.setAdapter(adapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
+        tabLayout.setTabTextColors(
+                getResources().getColor(R.color.white),
+                getResources().getColor(R.color.white)
+        );
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -108,15 +119,70 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendData(){
-        checkData();
+        if(checkData()){
+            SharedPreferences pref = getApplication().getSharedPreferences("data", MODE_PRIVATE);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Sending confirmation")
+                    .setTitle("You are about to send your report as " + pref.getString("phone", ""));
+            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    CharSequence text = "Report successfully sent.";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+                    toast.show();
+                    finish();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 
-    public void checkData(){
-        Context context = getApplicationContext();
-        CharSequence text = "Checking data.";
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+    public boolean checkData(){
+        boolean emptyIntensity = general.getIntensity()==0;
+        boolean emptyLocation = location.getCurrentMarker() == null;
+        if(emptyIntensity){
+            switchTab(0);
+            getTabTextView(0).setTextColor(getResources().getColor(R.color.red));
+            ((TextView)general.getView().findViewById(R.id.seekbarText))
+                    .setTextColor(getResources().getColor(R.color.red));
+        }
+        if(emptyLocation){
+            if(!emptyIntensity) {
+                switchTab(2);
+            }
+            getTabTextView(2).setTextColor(getResources().getColor(R.color.red));
+        }
+        if(emptyIntensity || emptyLocation){
+            CharSequence text = "Some required fields are missing.";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+            toast.show();
+            return false;
+        }
+        return true;
+    }
+
+    public void resetTabColor(int pos){
+        if(pos==0){
+            ((TextView)general.getView().findViewById(R.id.seekbarText))
+                    .setTextColor(getResources().getColor(R.color.defaultGrey));
+        }
+        getTabTextView(pos).setTextColor(getResources().getColor(R.color.white));
+    }
+
+    private TextView getTabTextView(int pos){
+        LinearLayout ll = (LinearLayout)((LinearLayout)tabLayout.getChildAt(0)).getChildAt(pos);
+        return (TextView) ll.getChildAt(1);
     }
 
     // Adapter for the viewpager using FragmentPagerAdapter
