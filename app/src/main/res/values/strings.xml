@@ -26,4 +26,11 @@
     <string name="incorrect_code">The code is not correct.</string>
     <string name="confirmation_end">Confirmation completed.</string>
     <string name="code_is">Your code is </string>
+    <string name="leak_location">Your leak location</string>
+    <string name="kenya_loc">The location must be in Kenya.</string>
+    <string name="perm_request">Requesting permission</string>
+    <string name="perm_explain_gps">We can get your position automatically if you allow us to do so.</string>
+    <string name="perm_denined">Permission denied</string>
+    <string name="perm_denined_explain_gps">If you reject permission, you can not use your location.\n
+                        Please turn on permissions at [Setting] > [Permission]</string>
 </resources>

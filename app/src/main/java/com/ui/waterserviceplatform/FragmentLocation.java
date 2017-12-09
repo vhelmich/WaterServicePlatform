@@ -4,20 +4,15 @@ package com.ui.waterserviceplatform;
  * Created by vhelmich on 29/11/17.
  */
 
-import android.*;
 import android.Manifest;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,6 +94,16 @@ public class FragmentLocation extends Fragment {
             }
         });
 
+        setupNavigation(rootView);
+
+        return rootView;
+    }
+
+    /**
+     * Add listeners for the navigation bar
+     * @param rootView view containing the elements
+     */
+    private void setupNavigation(View rootView){
         Button backButton = rootView.findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -112,21 +117,28 @@ public class FragmentLocation extends Fragment {
                 ((MainActivity)getActivity()).sendData();
             }
         });
-
-        return rootView;
     }
-
+    /**
+     * Add a market and move to the given position
+     * @param coord position to move to
+     */
     private void addMarkerAndMove(LatLng coord) {
         if (currentMarker != null) {
             currentMarker.remove();
         }
         ((MainActivity)getActivity()).resetTabColor(2);
-        currentMarker = googleMap.addMarker(new MarkerOptions().position(coord).title("Your leak location").snippet(""));
+        currentMarker = googleMap.addMarker(new MarkerOptions().position(coord)
+                .title(getString(R.string.leak_location))
+                .snippet("")
+        );
 
         CameraPosition cameraPosition = new CameraPosition.Builder().target(coord).zoom(12).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
+    /**
+     * Add longTouch listener and add marker at the point
+     */
     private void addListenerLongTouch(){
         googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
@@ -139,12 +151,10 @@ public class FragmentLocation extends Fragment {
                         addMarkerAndMove(latLng);
                     }
                     else{
-                        Context context = getContext();
-                        CharSequence text = "The location must be in Kenya.";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
+                        Toast.makeText(getContext(),
+                                getText(R.string.kenya_loc),
+                                Toast.LENGTH_SHORT)
+                                .show();
                     }
                 }
                 catch(Exception e){
@@ -155,6 +165,10 @@ public class FragmentLocation extends Fragment {
         });
     }
 
+    /**
+     * Check if the application have the permissions to use the GPS
+     * @return true if the application can use the GPS
+     */
     private boolean checkPermissionGPS(){
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
@@ -171,17 +185,18 @@ public class FragmentLocation extends Fragment {
         };
         TedPermission.with(getContext())
                 .setPermissionListener(permissionlistener)
-                .setRationaleTitle("Requesting permission")
-                .setRationaleMessage("We can get your position automatically if you allow us to do so.")
-                .setDeniedMessage("Permission denied")
-                .setDeniedMessage("If you reject permission, you can not use your location.\n" +
-                        "Please turn on permissions at [Setting] > [Permission]")
+                .setRationaleTitle(getString(R.string.perm_request))
+                .setRationaleMessage(getString(R.string.perm_explain_gps))
+                .setDeniedMessage(getString(R.string.perm_denined))
+                .setDeniedMessage(getString(R.string.perm_denined_explain_gps))
                 .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
                 .check();
         return TedPermission.isGranted(getContext(),Manifest.permission.ACCESS_FINE_LOCATION);
     }
 
-
+    /**
+     * Modifies the current position button
+     */
     private void changeButtonPosition(){
         View mapView = mapFragment.getView();
         if (mapView != null &&
@@ -194,6 +209,7 @@ public class FragmentLocation extends Fragment {
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
             layoutParams.setMargins(0, 0, 30, 30);
         }
+
         googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener(){
             @Override
             public boolean onMyLocationButtonClick()
@@ -235,6 +251,9 @@ public class FragmentLocation extends Fragment {
         });
     }
 
+    /**
+     * Move and add marker to current position
+     */
     private void moveToPosition(){
         try {
             googleMap.setMyLocationEnabled(true);
@@ -245,12 +264,19 @@ public class FragmentLocation extends Fragment {
         }
     }
 
+    /**
+     * Default position used if localisation is not activated
+     */
     private void defaultLocation(){
         LatLng nairobi = new LatLng(-1.2920408, 36.8256984);
         CameraPosition cameraPosition = new CameraPosition.Builder().target(nairobi).zoom(12).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
+    /**
+     * Return the current marker
+     * @return current marker
+     */
     public Marker getCurrentMarker(){
         return currentMarker;
     }
