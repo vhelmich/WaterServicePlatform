@@ -96,8 +96,10 @@ public class FragmentGeneral extends Fragment {
         InputMethodManager inputManager = (InputMethodManager)
                 getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
+        if(getActivity().getCurrentFocus()!=null) {
+            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     /**
@@ -107,7 +109,9 @@ public class FragmentGeneral extends Fragment {
         hideKeyboard();
         addInfoField.clearFocus();
         idField.clearFocus();
-        getView().findViewById(R.id.generalFragment).requestFocus();
+        if(getView()!=null) {
+            getView().findViewById(R.id.generalFragment).requestFocus();
+        }
     }
 
     /**
