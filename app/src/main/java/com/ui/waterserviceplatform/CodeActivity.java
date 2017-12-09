@@ -48,7 +48,8 @@ public class CodeActivity extends AppCompatActivity {
             auto = (boolean) b.get("auto");
             phoneNumber = (String) b.get("number");
         }
-        
+
+        // the number has been automatically provided
         if(auto){
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -56,28 +57,28 @@ public class CodeActivity extends AppCompatActivity {
                    storeNumberAndLaunchMain();
                 }
             }, 500);
+        }
+        else {
+            setupInterface();
         }
 
-        if(auto){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                   storeNumberAndLaunchMain();
-                }
-            }, 500);
-        }
-        
-        for(int i=0;i<tvIds.length;i++){
+
+    }
+
+    /**
+     * Setup the interface by adding the listener, creating necessary view etc..
+     */
+    private void setupInterface(){
+        for (int i = 0; i < tvIds.length; i++) {
             codeFields.add((CustomEditText) findViewById(tvIds[i]));
-            if(i!=0){
-                codeFields.get(i).setBefore(codeFields.get(i-1));
+            if (i != 0) {
+                codeFields.get(i).setBefore(codeFields.get(i - 1));
             }
         }
         setReplaceEt();
         setOnClickEt();
-        System.out.println("code: " + generatedCode);
         codeReceived = (TextView) findViewById(R.id.codeNumber);
-        codeReceived.setText("Your code is " + generatedCode);
+        codeReceived.setText(getText(R.string.code_is).toString() + generatedCode);
         codeButton = findViewById(R.id.codeButton);
         codeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -85,7 +86,7 @@ public class CodeActivity extends AppCompatActivity {
                     storeNumberAndLaunchMain();
                 } else {
                     Context context = getApplicationContext();
-                    CharSequence text = "The code is not correct.";
+                    CharSequence text = getText(R.string.incorrect_code);
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
@@ -94,14 +95,21 @@ public class CodeActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
+    /**
+     * Check if the provided code match the generated one
+     * @param code provided code
+     * @return True if the code is correct
+     */
     private boolean checkCode(int code) {
         return code == generatedCode;
     }
 
+    /**
+     * Generate the provided code from the different editTexts
+     * @return input code
+     */
     private int getInputCode(){
         int res = 0;
         for(CustomEditText et : codeFields){
@@ -113,6 +121,9 @@ public class CodeActivity extends AppCompatActivity {
         return res;
     }
 
+    /**
+     * Setup the listeners for the editTexts
+     */
     private void setReplaceEt(){
         for(int i = 0; i<codeFields.size();i++){
             final CustomEditText et = codeFields.get(i);
@@ -120,10 +131,8 @@ public class CodeActivity extends AppCompatActivity {
             et.addTextChangedListener(new TextWatcher() {
                 boolean empty = false;
                 @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    Log.d("beforeshit","before " + charSequence.toString());
                     if(charSequence.length()==0) {
                         empty = true;
-                        Log.d("beforeshit", "before is true");
                     }
                 }
                 @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -132,7 +141,6 @@ public class CodeActivity extends AppCompatActivity {
                     }
                 }
                 @Override public void afterTextChanged(Editable editable) {
-                    Log.d("beforeshit","after " + editable.toString());
                     et.removeTextChangedListener(this);
                     if(editable.length()==2) {
                         et.setText(editable.toString().substring(1,2));
@@ -157,6 +165,9 @@ public class CodeActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Setup the listeners for the editTexts
+     */
     private void setOnClickEt(){
         for(final CustomEditText et : codeFields){
             et.setOnClickListener(new View.OnClickListener() {
@@ -181,6 +192,10 @@ public class CodeActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check if the all the editTexts have been filled
+     * @return true if the editTexts are filled
+     */
     private boolean allFilled(){
         for(final CustomEditText et : codeFields){
             if(et.getText().length()==0){
@@ -190,20 +205,24 @@ public class CodeActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Store the provided phone number into the preferences and start the main activity.
+     */
     private void storeNumberAndLaunchMain(){
         SharedPreferences sharedPref = this.getSharedPreferences("data",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("phoneNumber", phoneNumber);
         editor.commit();
 
-        Context context = getApplicationContext();
-        CharSequence text = "Confirmation completed.";
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+        Toast.makeText(getApplicationContext(),
+                getText(R.string.confirmation_end),
+                Toast.LENGTH_SHORT)
+                .show();
 
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
