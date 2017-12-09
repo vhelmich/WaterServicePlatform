@@ -79,6 +79,8 @@ public class PhoneActivity extends AppCompatActivity {
         };
         TedPermission.with(getApplicationContext())
                 .setPermissionListener(permissionlistener)
+                .setRationaleConfirmText(R.string.ok)
+                .setDeniedCloseButtonText(R.string.ok)
                 .setRationaleTitle(getString(R.string.perm_request))
                 .setRationaleMessage(getString(R.string.perm_explain_phone))
                 .setPermissions(Manifest.permission.READ_SMS)

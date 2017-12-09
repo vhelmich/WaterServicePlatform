@@ -47,6 +47,18 @@ public class FragmentLocation extends Fragment {
     private MapFragment mapFragment;
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if(currentMarker==null && googleMap!=null) {
+            if (checkPermissionGPS()) {
+                moveToPosition();
+            } else {
+                defaultLocation();
+            }
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         placeAutoComplete = new PlaceAutocompleteFragment();
@@ -164,27 +176,6 @@ public class FragmentLocation extends Fragment {
      * @return true if the application can use the GPS
      */
     private boolean checkPermissionGPS(){
-        PermissionListener permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                moveToPosition();
-            }
-
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                defaultLocation();
-            }
-
-
-        };
-        TedPermission.with(getContext())
-                .setPermissionListener(permissionlistener)
-                .setRationaleTitle(getString(R.string.perm_request))
-                .setRationaleMessage(getString(R.string.perm_explain_gps))
-                .setDeniedMessage(getString(R.string.perm_denined))
-                .setDeniedMessage(getString(R.string.perm_denined_explain_gps))
-                .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
-                .check();
         return TedPermission.isGranted(getContext(),Manifest.permission.ACCESS_FINE_LOCATION);
     }
 

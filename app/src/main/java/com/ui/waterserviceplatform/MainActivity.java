@@ -1,5 +1,6 @@
 package com.ui.waterserviceplatform;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +38,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        checkNumber();
-        setupTabLayout();
-
+        if(checkNumber()){
+            checkPermissions();
+            setupTabLayout();
+        }
     }
 
     /**
@@ -91,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Check if the phone number has been set. If not, launch the confirmation activity
      */
-    private void checkNumber(){
+    private boolean checkNumber(){
         SharedPreferences sharedPrefs = getSharedPreferences("data", MODE_PRIVATE);
         if(!sharedPrefs.contains("phoneNumber")){
             Intent intent = new Intent(getApplicationContext(), PhoneActivity.class);
@@ -99,7 +104,9 @@ public class MainActivity extends AppCompatActivity {
                     Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+            return false;
         }
+        return true;
     }
 
     /**
@@ -136,8 +143,9 @@ public class MainActivity extends AppCompatActivity {
         if(checkData()){
             SharedPreferences pref = getApplication().getSharedPreferences("data", MODE_PRIVATE);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(getText(R.string.send_confirm))
-                    .setTitle(R.string.send_as + pref.getString("phone", ""));
+            builder.setMessage(getText(R.string.send_as) + " " + pref.getString("phoneNumber", "")
+                    + ". " + getText(R.string.wish))
+                    .setTitle(getText(R.string.send_confirm));
             builder.setPositiveButton(getText(R.string.confirm), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
@@ -213,6 +221,28 @@ public class MainActivity extends AppCompatActivity {
     private TextView getTabTextView(int pos){
         LinearLayout ll = (LinearLayout)((LinearLayout)tabLayout.getChildAt(0)).getChildAt(pos);
         return (TextView) ll.getChildAt(1);
+    }
+
+    private void checkPermissions(){
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+            }
+        };
+        TedPermission.with(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleTitle(getString(R.string.perm_request))
+                .setRationaleMessage(getString(R.string.perm_explain))
+                .setRationaleConfirmText(R.string.ok)
+                .setDeniedCloseButtonText(R.string.ok)
+                .setDeniedMessage(getString(R.string.perm_denined))
+                .setDeniedMessage(getString(R.string.perm_denined_explain))
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION)
+                .check();
     }
 
     // Adapter for the viewpager using FragmentPagerAdapter

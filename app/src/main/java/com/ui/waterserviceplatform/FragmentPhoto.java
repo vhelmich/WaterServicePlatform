@@ -38,7 +38,6 @@ public class FragmentPhoto extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_photo, container, false);
-            checkStoragePermission();
 
             setupButton(view);
             setupGridView(view);
@@ -91,29 +90,6 @@ public class FragmentPhoto extends Fragment {
             }
         });
     }
-
-    /**
-     * Check permission to access storage
-     */
-    private void checkStoragePermission(){
-            PermissionListener permissionlistener = new PermissionListener() {
-                @Override
-                public void onPermissionGranted() {
-                }
-
-                @Override
-                public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                }
-            };
-            TedPermission.with(getContext())
-                    .setPermissionListener(permissionlistener)
-                    .setRationaleTitle(getString(R.string.perm_request))
-                    .setRationaleMessage(getString(R.string.perm_explain_pic))
-                    .setDeniedMessage(getString(R.string.perm_denined))
-                    .setDeniedMessage(getString(R.string.perm_denined_explain_pic))
-                    .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    .check();
-        }
 
     /**
      * Create the image picker
