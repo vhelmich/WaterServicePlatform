@@ -5,14 +5,14 @@ package com.ui.waterserviceplatform;
  */
 
 import android.Manifest;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,27 +24,24 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-
-import java.util.ArrayList;
 
 
 public class FragmentLocation extends Fragment {
     private GoogleMap googleMap;
-    private PlaceAutocompleteFragment placeAutoComplete;
+    private SupportPlaceAutocompleteFragment placeAutoComplete;
     private Marker currentMarker;
-    private MapFragment mapFragment;
+    private SupportMapFragment mapFragment;
 
     @Override
     public void onResume() {
@@ -61,9 +58,9 @@ public class FragmentLocation extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        placeAutoComplete = new PlaceAutocompleteFragment();
-        mapFragment = new MapFragment();
-        FragmentManager fm = getActivity().getFragmentManager();
+        placeAutoComplete = new SupportPlaceAutocompleteFragment();
+        mapFragment = new SupportMapFragment();
+        FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_autocomplete, placeAutoComplete);
         ft.replace(R.id.fragment_map, mapFragment);

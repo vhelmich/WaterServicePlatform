@@ -107,8 +107,12 @@ public class FragmentGeneral extends Fragment {
      */
     public void loseFocus(){
         hideKeyboard();
-        addInfoField.clearFocus();
-        idField.clearFocus();
+        if(addInfoField!=null) {
+            addInfoField.clearFocus();
+        }
+        if(idField!=null) {
+            idField.clearFocus();
+        }
         if(getView()!=null) {
             getView().findViewById(R.id.generalFragment).requestFocus();
         }
