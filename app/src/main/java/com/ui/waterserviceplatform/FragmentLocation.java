@@ -196,43 +196,19 @@ public class FragmentLocation extends Fragment {
             @Override
             public boolean onMyLocationButtonClick()
             {
-                LocationManager locationManager = (LocationManager)
-                        getActivity().getSystemService(Context.LOCATION_SERVICE);
-                android.location.LocationListener locationListener = new android.location.LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-                        LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
-                        if(checkCountry(ll)) {
-                            addMarkerAndMove(ll);
-                        }
-                        else{
-                            Toast.makeText(getContext(),
-                                    getText(R.string.kenya_loc),
-                                    Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-                    }
-
-                    @Override
-                    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-                    }
-
-                    @Override
-                    public void onProviderEnabled(String provider) {
-
-                    }
-
-                    @Override
-                    public void onProviderDisabled(String provider) {
-
-                    }
-                };
+                LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 try {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                            5000,
-                            10,
-                            locationListener);
+                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
+                    if(checkCountry(pos)) {
+                        addMarkerAndMove(pos);
+                    }
+                    else{
+                        Toast.makeText(getContext(),
+                                getText(R.string.kenya_loc),
+                                Toast.LENGTH_SHORT)
+                                .show();
+                    }
                 }
                 catch(SecurityException e){
 
