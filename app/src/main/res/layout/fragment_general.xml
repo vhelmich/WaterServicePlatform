@@ -34,13 +34,17 @@
           android:text="@string/seekbarText"/>
 
 
-        <android.support.v7.widget.AppCompatSeekBar
+        <SeekBar
             android:id="@+id/seekbarDamage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100px"
             android:layout_below="@+id/seekbarText"
             android:layout_marginTop="20dp"
             android:layout_marginHorizontal="30dp"
+            android:minHeight="100px"
+            android:maxHeight="100px"
+            android:progressDrawable="@drawable/progress_drawable"
+            android:thumb="@drawable/thumb_drawable"
             android:max="10"
             android:progress="0"/>
 
