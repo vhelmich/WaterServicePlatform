@@ -199,15 +199,16 @@ public class FragmentLocation extends Fragment {
                 LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 try {
                     Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
-                    if(checkCountry(pos)) {
-                        addMarkerAndMove(pos);
-                    }
-                    else{
-                        Toast.makeText(getContext(),
-                                getText(R.string.kenya_loc),
-                                Toast.LENGTH_SHORT)
-                                .show();
+                    if(location!=null) {
+                        LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
+                        if (checkCountry(pos)) {
+                            addMarkerAndMove(pos);
+                        } else {
+                            Toast.makeText(getContext(),
+                                    getText(R.string.kenya_loc),
+                                    Toast.LENGTH_SHORT)
+                                    .show();
+                        }
                     }
                 }
                 catch(SecurityException e){
