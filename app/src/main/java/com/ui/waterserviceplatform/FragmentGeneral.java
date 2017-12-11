@@ -16,6 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class FragmentGeneral extends Fragment {
 
@@ -23,6 +26,9 @@ public class FragmentGeneral extends Fragment {
     private EditText idField, addInfoField;
     private ScrollView scrollview;
     private int intensity = 0;
+    private TextView intesityText;
+    private final String[] intensityNames = {"", "Very weak", "Weak", "Moderate",
+            "Strong", "Very strong"};
 
 
     @Override
@@ -40,6 +46,7 @@ public class FragmentGeneral extends Fragment {
         idField = (EditText) view.findViewById(R.id.idPipe);
         addInfoField = (EditText) view.findViewById(R.id.addInfo);
         scrollview = (ScrollView) view.findViewById(R.id.scrollview);
+        intesityText = (TextView) view.findViewById(R.id.intensityText);
         setListeners(view);
 
         return view;
@@ -65,11 +72,13 @@ public class FragmentGeneral extends Fragment {
                 }
             }
         });
+        slider.setMax(5);
         slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if(fromUser) {
                     intensity = progress;
+                    intesityText.setText(intensityNames[progress]);
                 }
                 ((MainActivity)getActivity()).resetTabColor(0);
             }
