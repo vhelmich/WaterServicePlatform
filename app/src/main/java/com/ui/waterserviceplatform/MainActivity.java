@@ -27,7 +27,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
+    private CustomViewPager viewPager;
     private FragmentGeneral general;
     private FragmentPhoto photo;
     private FragmentLocation location;
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
      * Setup the tabLayout
      */
     private void setupTabLayout(){
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager = (CustomViewPager) findViewById(R.id.pager);
         viewPager.setOffscreenPageLimit(3);
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
