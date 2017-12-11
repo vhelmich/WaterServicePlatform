@@ -84,7 +84,7 @@ public class ImageAdapter extends BaseAdapter {
 
     public void addImages(ArrayList<Uri> images){
         imagesUri.addAll(images);
-        if(this.getCount()==3){
+        if(this.getCount()==4){
             fp.setButtonVisibility(View.INVISIBLE);
         }
         this.notifyDataSetChanged();
@@ -102,9 +102,9 @@ public class ImageAdapter extends BaseAdapter {
 
         @Override
         protected Bitmap doInBackground(Object... params) {
-            ImageSize targetSize = new ImageSize(200,200);
+            ImageSize targetSize = new ImageSize(400,400);
             Bitmap bmp = imageLoader.loadImageSync(path,  targetSize,options);
-            Bitmap resized = Bitmap.createScaledBitmap(bmp, 200, 200, true);
+            Bitmap resized = Bitmap.createScaledBitmap(bmp, 400, 400, true);
 
             return resized;
         }

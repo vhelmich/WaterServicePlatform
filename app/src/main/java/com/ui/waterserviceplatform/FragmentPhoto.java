@@ -105,7 +105,7 @@ public class FragmentPhoto extends Fragment {
                     .setPeekHeight(1300)
                     .showTitle(false)
                     .setSelectMinCount(1)
-                    .setSelectMaxCount(3-imageAdapter.getCount())
+                    .setSelectMaxCount(4-imageAdapter.getCount())
                     .setCompleteButtonText(getString(R.string.done))
                     .setEmptySelectionText(getString(R.string.no_select))
                     .create();

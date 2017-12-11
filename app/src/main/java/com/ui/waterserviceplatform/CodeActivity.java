@@ -78,7 +78,7 @@ public class CodeActivity extends AppCompatActivity {
         setReplaceEt();
         setOnClickEt();
         codeReceived = (TextView) findViewById(R.id.codeNumber);
-        codeReceived.setText(getText(R.string.code_is).toString() + generatedCode);
+        codeReceived.setText(getText(R.string.code_is).toString() + " " + generatedCode);
         codeButton = findViewById(R.id.codeButton);
         codeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
