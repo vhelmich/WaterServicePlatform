@@ -100,7 +100,7 @@ public class FragmentLocation extends Fragment {
                 else{
                     defaultLocation();
                 }
-                addListenerLongTouch();
+                addListenerTouch();
             }
         });
 
@@ -147,23 +147,21 @@ public class FragmentLocation extends Fragment {
     }
 
     /**
-     * Add longTouch listener and add marker at the point
+     * Add touch listener and add marker at the point
      */
-    private void addListenerLongTouch(){
-        googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+    private void addListenerTouch(){
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
-            public void onMapLongClick(LatLng latLng) {
-
-                    if(checkCountry(latLng)){
-                        addMarkerAndMove(latLng);
-                    }
-                    else{
-                        Toast.makeText(getContext(),
-                                getText(R.string.kenya_loc),
-                                Toast.LENGTH_SHORT)
-                                .show();
-                    }
-
+            public void onMapClick(LatLng latLng) {
+                if(checkCountry(latLng)){
+                    addMarkerAndMove(latLng);
+                }
+                else{
+                    Toast.makeText(getContext(),
+                            getText(R.string.kenya_loc),
+                            Toast.LENGTH_SHORT)
+                            .show();
+                }
 
             }
         });
